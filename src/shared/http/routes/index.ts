@@ -1,9 +1,8 @@
 import { Router } from 'express';
+import { productsRouter } from './products.routes';
 
 const routes = Router();
 
-routes.get('/', (req, res) => {
-  return res.json({ oi: 'tchau' });
-});
+routes.use('/products', productsRouter);
 
 export { routes };

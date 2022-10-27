@@ -31,7 +31,7 @@ export class UpdateProductById {
       name,
     );
 
-    if (productsExistsWithSameName)
+    if (productsExistsWithSameName && name !== product.name)
       throw new ApplicationError('There is already one product whit this name');
 
     product.name = name;
