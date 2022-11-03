@@ -1,6 +1,8 @@
+import 'reflect-metadata';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import 'reflect-metadata';
+import { errors } from 'celebrate';
+import 'express-async-errors';
 import '@shared/typeorm';
 
 import { routes } from './routes';
@@ -12,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(routes);
+app.use(errors()); //earlier import than custom error middleware because if joi throws an error this middleware will catch it
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   if (error instanceof ApplicationError) {
