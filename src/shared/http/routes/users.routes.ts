@@ -16,6 +16,7 @@ usersRouter.post(
       password: Joi.string().required(),
     },
   }),
+  usersController.create,
 );
 
 export { usersRouter };
