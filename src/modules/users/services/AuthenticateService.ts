@@ -3,6 +3,7 @@ import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { getCustomRepository } from 'typeorm';
 import { UsersRepository } from '../typeorm/repositories/UsersRepository';
+import { AuthConfig } from '@config/auth';
 
 interface IRequest {
   email: string;
@@ -26,9 +27,9 @@ export class AuthenticateService {
     if (!passwordMatch)
       throw new UnauthorizedError('Email or password incorrect');
 
-    const token = sign({}, 'b8e4ac1f7a0f5ddb3c4e94c915bedc9d', {
+    const token = sign({}, AuthConfig.jwt.secret, {
       subject: user.id,
-      expiresIn: '1d',
+      expiresIn: AuthConfig.jwt.expiresIn,
     });
 
     return { token };
