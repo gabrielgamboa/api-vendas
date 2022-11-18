@@ -3,6 +3,12 @@ import { UnauthorizedError } from '@shared/errors/UnauthorizedError';
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 
+interface JwtPayload {
+  iat: number;
+  ext: number;
+  sub: string;
+}
+
 export function isAuthenticated(
   req: Request,
   res: Response,
@@ -18,6 +24,12 @@ export function isAuthenticated(
 
   try {
     const decodedToken = verify(token, AuthConfig.jwt.secret);
+
+    const { sub: userId } = decodedToken as JwtPayload;
+
+    req.user = {
+      id: userId,
+    };
 
     return next();
   } catch (error) {
